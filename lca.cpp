@@ -5,7 +5,7 @@ using namespace std;
 
 struct Node 
 { 
-    int key; 
+    int value; 
     struct Node *left, *right; 
 }; 
 
@@ -48,7 +48,7 @@ void CreateTree::insert(int key)
     else
     {
 		root = new Node;
-		root->key = key;
+		root->value = key;
 		root->left = NULL;
 		root->right = NULL;
 	}
@@ -56,7 +56,7 @@ void CreateTree::insert(int key)
 
 void CreateTree::insert(int key, Node *leaf)
 {
-	if(key < leaf->key)
+	if(key < leaf->value)
     {
 		if(leaf->left != NULL)
         {
@@ -65,12 +65,12 @@ void CreateTree::insert(int key, Node *leaf)
         else
         {
 			leaf->left = new Node;
-			leaf->left->key = key;
+			leaf->left->value = key;
 			leaf->left->left = NULL;
 			leaf->left->right = NULL;
 		}
 	}
-    else if(key >= leaf->key)
+    else if(key >= leaf->value)
     {
 		if(leaf->right != NULL)
         {
@@ -79,7 +79,7 @@ void CreateTree::insert(int key, Node *leaf)
         else
         {
 			leaf->right = new Node;
-			leaf->right->key = key;
+			leaf->right->value = key;
 			leaf->right->right = NULL;
 			leaf->right->left = NULL;
 		}
@@ -130,9 +130,9 @@ bool CreateTree::find(Node *root, vector<int> &path, int index)
         return false; 
     }
     
-    path.push_back(root->key); 
+    path.push_back(root->value); 
 
-    if(root->key == index) 
+    if(root->value == index) 
     {
         return true; 
     }
@@ -158,7 +158,7 @@ void CreateTree::print(Node *leaf)
 	if(leaf != NULL)
     {
 		print(leaf->left);
-		cout << leaf->key << "|";
+		cout << leaf->value << "|";
 		print(leaf->right);
 	}
 }
