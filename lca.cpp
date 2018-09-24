@@ -9,10 +9,181 @@ struct Node
     struct Node *left, *right; 
 }; 
 
-Node *newNode(int index) 
+class CreateTree// : public testing::Test
+{
+    public:
+        CreateTree();
+        ~CreateTree();
+    
+        void insert(int key);
+        int lca(int number1, int number2);
+        void print();
+        
+    private:
+        void destroy(Node *leaf);
+        void insert(int key, Node *leaf);
+        bool find(Node *leaf, vector<int> &path, int key);
+        int lca(Node *leaf, int number1, int number2);
+        void print(Node *leaf);
+        
+        Node *root;
+};
+
+CreateTree::CreateTree()
+{
+	root = NULL;
+}
+
+CreateTree::~CreateTree()
+{
+	destroy(root);
+}
+
+void CreateTree::insert(int key)
+{
+	if(root != NULL)
+    {
+		insert(key, root);
+	}
+    else
+    {
+		root = new Node;
+		root->key = key;
+		root->left = NULL;
+		root->right = NULL;
+	}
+}
+
+void CreateTree::insert(int key, Node *leaf)
+{
+	if(key < leaf->key)
+    {
+		if(leaf->left != NULL)
+        {
+			insert(key, leaf->left);
+		}
+        else
+        {
+			leaf->left = new Node;
+			leaf->left->key = key;
+			leaf->left->left = NULL;
+			leaf->left->right = NULL;
+		}
+	}
+    else if(key >= leaf->key)
+    {
+		if(leaf->right != NULL)
+        {
+			insert(key, leaf->right);
+		}
+        else
+        {
+			leaf->right = new Node;
+			leaf->right->key = key;
+			leaf->right->right = NULL;
+			leaf->right->left = NULL;
+		}
+	}
+
+}
+
+int CreateTree::lca(int number1, int number2) 
 { 
-    Node *temp = new Node; 
-    temp->key = index; 
-    temp->left = temp->right = NULL; 
-    return temp; 
-} 
+    return lca(root, number1, number2);
+}
+
+int CreateTree::lca(Node *leaf, int number1, int number2) 
+{ 
+    vector<int> path1, path2; 
+
+    if(!find(leaf, path1, number1) || !find(leaf, path2, number2)) 
+    {
+        return -1; 
+    }
+
+    unsigned int i; 
+    for(i = 0; i < path1.size() && i < path2.size(); i++) 
+    {
+        if(path1[i] != path2[i]) 
+        {
+            break;
+        }
+    }
+    
+    return path1[i-1]; 
+}
+
+void CreateTree::destroy(Node *leaf)
+{
+	if(leaf != NULL)
+    {
+		destroy(leaf->left);
+		destroy(leaf->right);
+		delete leaf;
+	}
+}
+
+bool CreateTree::find(Node *root, vector<int> &path, int index) 
+{ 
+    if(root == NULL) 
+    {
+        return false; 
+    }
+    
+    path.push_back(root->key); 
+
+    if(root->key == index) 
+    {
+        return true; 
+    }
+    
+    if((root->left && find(root->left, path, index)) || (root->right && find(root->right, path, index))) 
+    {
+        return true; 
+    }
+    
+    path.pop_back(); 
+    return false; 
+}
+
+void CreateTree::print()
+{
+    cout << "\n";
+	print(root);
+	cout << "\n";
+}
+
+void CreateTree::print(Node *leaf)
+{
+	if(leaf != NULL)
+    {
+		print(leaf->left);
+		cout << leaf->key << "|";
+		print(leaf->right);
+	}
+}
+
+int main(/*void*/) 
+{
+	CreateTree *tree = new CreateTree();
+
+	tree->insert(1);
+	tree->insert(2);
+	tree->insert(3);
+	tree->insert(4);
+	tree->insert(5);
+	tree->insert(6);
+	tree->insert(7);
+
+    cout << "LCA Beta Test!!!";
+    cout << "\nLCA(4, 5) = " << tree->lca(4, 5); 
+    cout << "\nLCA(4, 6) = " << tree->lca(4, 6); 
+    cout << "\nLCA(3, 4) = " << tree->lca(3, 4); 
+    cout << "\nLCA(1, 3) = " << tree->lca(1, 3); 
+    cout << "\nLCA(1, 7) = " << tree->lca(1, 7);
+    
+    tree->print();
+    
+    delete tree;
+    return 0; 
+}
