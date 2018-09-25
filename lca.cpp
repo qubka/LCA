@@ -1,6 +1,6 @@
 #include <iostream> 
 #include <vector>
-#include <gtest/gtest.h>
+#include <cassert>
 
 using namespace std; 
 
@@ -10,7 +10,7 @@ struct Node
     struct Node *left, *right; 
 }; 
 
-class CreateTree : public testing::Test
+class CreateTree
 {
     public:
         CreateTree();
@@ -164,7 +164,7 @@ void CreateTree::print(Node *leaf)
 	}
 }
 
-TEST_F(CreateTree, LCATest) 
+int main() 
 {
     CreateTree *tree = new CreateTree();
 
@@ -176,19 +176,13 @@ TEST_F(CreateTree, LCATest)
 	tree->insert(6);
 	tree->insert(7);
 
-    ASSERT_EQ(4, tree->lca(4, 5));
-    ASSERT_EQ(4, tree->lca(4, 6));
-    ASSERT_EQ(3, tree->lca(3, 4));
-    ASSERT_EQ(1, tree->lca(1, 3));
-    ASSERT_EQ(1, tree->lca(1, 7));
+    assert(tree->lca(4, 5) == 4);
+    assert(tree->lca(4, 6) == 4);
+    assert(tree->lca(3, 4) == 3);
+    assert(tree->lca(1, 3) == 1);
+    assert(tree->lca(1, 7) == 1);
 
-    //tree->print();
+    tree->print();
     
     delete tree;
-}
-
-int main(int argc, char** argv) 
-{
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
 }
