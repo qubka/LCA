@@ -1,5 +1,6 @@
 #include <iostream> 
-#include <vector> 
+#include <vector>
+#include <gtest/gtest.h>
 
 using namespace std; 
 
@@ -9,7 +10,7 @@ struct Node
     struct Node *left, *right; 
 }; 
 
-class CreateTree// : public testing::Test
+class CreateTree : public testing::Test
 {
     public:
         CreateTree();
@@ -163,9 +164,9 @@ void CreateTree::print(Node *leaf)
 	}
 }
 
-int main(/*void*/) 
+TEST_F(CreateTree, LCATest) 
 {
-	CreateTree *tree = new CreateTree();
+    CreateTree *tree = new CreateTree();
 
 	tree->insert(1);
 	tree->insert(2);
@@ -175,15 +176,19 @@ int main(/*void*/)
 	tree->insert(6);
 	tree->insert(7);
 
-    cout << "LCA Beta Test!!!";
-    cout << "\nLCA(4, 5) = " << tree->lca(4, 5); 
-    cout << "\nLCA(4, 6) = " << tree->lca(4, 6); 
-    cout << "\nLCA(3, 4) = " << tree->lca(3, 4); 
-    cout << "\nLCA(1, 3) = " << tree->lca(1, 3); 
-    cout << "\nLCA(1, 7) = " << tree->lca(1, 7);
-    
-    tree->print();
+    ASSERT_EQ(4, tree->lca(4, 5));
+    ASSERT_EQ(4, tree->lca(4, 6));
+    ASSERT_EQ(3, tree->lca(3, 4));
+    ASSERT_EQ(1, tree->lca(1, 3));
+    ASSERT_EQ(1, tree->lca(1, 7));
+
+    //tree->print();
     
     delete tree;
-    return 0; 
+}
+
+int main(int argc, char** argv) 
+{
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }
