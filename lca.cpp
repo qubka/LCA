@@ -15,18 +15,15 @@ class CreateTree
     public:
         CreateTree();
         ~CreateTree();
-    
         void insert(int key);
         int lca(int number1, int number2);
         void print();
-        
     private:
         void destroy(Node *leaf);
         void insert(int key, Node *leaf);
         bool find(Node *leaf, vector<int> &path, int key);
         int lca(Node *leaf, int number1, int number2);
         void print(Node *leaf);
-        
         Node *root;
 };
 
@@ -183,6 +180,5 @@ int main()
     assert(tree->lca(1, 7) == 1);
 
     tree->print();
-    
     delete tree;
 }
