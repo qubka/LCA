@@ -2,6 +2,9 @@
 #include <vector>
 #include <cassert>
 
+#define BOOST_TEST_MODULE Simple testlca
+#include <boost/test/unit_test.hpp>
+
 using namespace std; 
 
 struct Node 
