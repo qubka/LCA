@@ -54,7 +54,7 @@ void Graph::addEdge(int u, int v, int weight)
     adj[u].push_back(node);
 } 
 
-int main() 
+/*int main() 
 { 
     Graph g(6); 
     g.addEdge(0, 1, 5); 
@@ -66,4 +66,19 @@ int main()
     g.addEdge(2, 3, 7); 
     g.addEdge(3, 4, -1); 
     g.addEdge(4, 5, -2); 
+}*/
+
+BOOST_AUTO_TEST_CASE(simple_test) {
+    Graph g(6); 
+    g.addEdge(0, 1, 5); 
+    g.addEdge(0, 2, 3); 
+    g.addEdge(1, 3, 6); 
+    g.addEdge(1, 2, 2); 
+    g.addEdge(2, 4, 4); 
+    g.addEdge(2, 5, 2); 
+    g.addEdge(2, 3, 7); 
+    g.addEdge(3, 4, -1); 
+    g.addEdge(4, 5, -2); 
+    
+//BOOST_CHECK_EQUAL(2+2, 4);
 }
