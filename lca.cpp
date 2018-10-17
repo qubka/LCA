@@ -80,5 +80,5 @@ BOOST_AUTO_TEST_CASE(simple_test) {
     g.addEdge(3, 4, -1); 
     g.addEdge(4, 5, -2); 
     
-//BOOST_CHECK_EQUAL(2+2, 4);
+    //BOOST_CHECK_EQUAL(2+2, 4);
 }
