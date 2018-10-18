@@ -40,6 +40,7 @@ class Graph
     public: 
         Graph(int V);   
         void addEdge(int u, int v, int weight); 
+        void LCA(int u , int v); 
 }; 
   
 Graph::Graph(int V) 
@@ -52,7 +53,79 @@ void Graph::addEdge(int u, int v, int weight)
 { 
     AdjListNode node(v, weight); 
     adj[u].push_back(node);
-} 
+}
+
+void Graph::LCA(int u , int v)
+{
+    bool *visited = new bool[V]; 
+    for(int i = 0; i < V; i++) 
+    {
+        visited[i] = false; 
+    }
+    
+    int *parent = new int[V];
+    for(int i = 0; i < V; ++i)
+    {
+        adj[i]
+    }
+    
+    
+    list<AdjListNode>::iterator i; 
+    int *parent = new int[V];
+    for (i = adj[v].begin(); i != adj[v].end(); ++i) 
+    { 
+        AdjListNode node = *i; 
+        if (!visited[node.getV()]) 
+            topologicalSortUtil(node.getV(), visited, Stack); 
+    } 
+    
+    
+    /*void GetParents(int node , int par)
+    {       
+        for(int i = 0; i < tree[node].size(); ++i)
+        {
+            if(tree[node][i] != par)
+            {   
+                parent[tree[node][i]] = node ; 
+                GetParents(tree[node][i], node) ; 
+            }
+        }
+    }*/
+    
+    
+    
+
+    
+    int lca; 
+    while(1)
+    {
+        visited[u] = true ; 
+        if(u == root_node)
+        {
+            break ; 
+        }
+        u = parent[u] ; 
+    }
+
+
+    while(1)
+    {
+        if(visited[v])
+        {
+            lca = v;    
+            break;  
+        }
+        
+        v = parent[v] ; 
+    }
+    
+    return lca ; 
+}
+
+
+
+
+
 
 /*int main() 
 { 
@@ -68,7 +141,8 @@ void Graph::addEdge(int u, int v, int weight)
     g.addEdge(4, 5, -2); 
 }*/
 
-BOOST_AUTO_TEST_CASE(simple_test) {
+BOOST_AUTO_TEST_CASE(simple_test) 
+{
     Graph g(6); 
     g.addEdge(0, 1, 5); 
     g.addEdge(0, 2, 3); 
@@ -82,3 +156,63 @@ BOOST_AUTO_TEST_CASE(simple_test) {
     
     //BOOST_CHECK_EQUAL(2+2, 4);
 }
+
+
+/*
+    // A recursive function used by shortestPath. See below link for details 
+// https://www.geeksforgeeks.org/topological-sorting/ 
+void Graph::topologicalSortUtil(int v, bool visited[], stack<int> &Stack) 
+{ 
+    // Mark the current node as visited 
+    visited[v] = true; 
+  
+    // Recur for all the vertices adjacent to this vertex 
+    list<AdjListNode>::iterator i; 
+    for (i = adj[v].begin(); i != adj[v].end(); ++i) 
+    { 
+        AdjListNode node = *i; 
+        if (!visited[node.getV()]) 
+            topologicalSortUtil(node.getV(), visited, Stack); 
+    } 
+  
+    // Push current vertex to stack which stores topological sort 
+    Stack.push(v); 
+} 
+  
+void Graph::shortestPath(int s) 
+{ 
+    stack<int> Stack; 
+    int dist[V]; 
+
+    bool *visited = new bool[V]; 
+    for (int i = 0; i < V; i++) 
+        visited[i] = false; 
+  
+
+    for (int i = 0; i < V; i++) 
+        if (visited[i] == false) 
+            topologicalSortUtil(i, visited, Stack); 
+
+    for (int i = 0; i < V; i++) 
+        dist[i] = INF; 
+    dist[s] = 0; 
+  
+    // Process vertices in topological order 
+    while (Stack.empty() == false) 
+    { 
+        int u = Stack.top(); 
+        Stack.pop(); 
+
+        list<AdjListNode>::iterator i; 
+        if (dist[u] != INF) 
+        { 
+          for (i = adj[u].begin(); i != adj[u].end(); ++i) 
+             if (dist[i->getV()] > dist[u] + i->getWeight()) 
+                dist[i->getV()] = dist[u] + i->getWeight(); 
+        } 
+    } 
+
+    for (int i = 0; i < V; i++) 
+        (dist[i] == INF)? cout << "INF ": cout << dist[i] << " "; 
+} 
+*/
