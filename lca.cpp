@@ -69,14 +69,13 @@ void Graph::LCA(int u , int v)
         adj[i]
     }
     
-    
     list<AdjListNode>::iterator i; 
     int *parent = new int[V];
     for (i = adj[v].begin(); i != adj[v].end(); ++i) 
     { 
         AdjListNode node = *i; 
         if (!visited[node.getV()]) 
-            topologicalSortUtil(node.getV(), visited, Stack); 
+            GetParents(node, i); 
     } 
     
     
