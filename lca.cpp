@@ -40,7 +40,8 @@ class Graph
     public: 
         Graph(int V);   
         void addEdge(int u, int v, int weight); 
-        void LCA(int u , int v); 
+        void LCA(int u , int v);
+        void GetParents(int node , int par)
 }; 
   
 Graph::Graph(int V) 
@@ -55,6 +56,20 @@ void Graph::addEdge(int u, int v, int weight)
     adj[u].push_back(node);
 }
 
+void Graph::GetParents(int node , int par)
+{       
+    //for(int i = 0; i < tree[node].size(); ++i)
+    list<AdjListNode>::iterator i;     
+    for(i = adj[v].begin(); i != adj[v].end(); ++i) 
+    {
+        if(tree[node][i] != par)
+        {   
+            parent[tree[node][i]] = node ; 
+            GetParents(tree[node][i], node) ; 
+        }
+    }
+}
+
 void Graph::LCA(int u , int v)
 {
     bool *visited = new bool[V]; 
@@ -64,37 +79,8 @@ void Graph::LCA(int u , int v)
     }
     
     int *parent = new int[V];
-    for(int i = 0; i < V; ++i)
-    {
-        adj[i]
-    }
-    
-    list<AdjListNode>::iterator i; 
-    int *parent = new int[V];
-    for (i = adj[v].begin(); i != adj[v].end(); ++i) 
-    { 
-        AdjListNode node = *i; 
-        if (!visited[node.getV()]) 
-            GetParents(node, i); 
-    } 
-    
-    
-    /*void GetParents(int node , int par)
-    {       
-        for(int i = 0; i < tree[node].size(); ++i)
-        {
-            if(tree[node][i] != par)
-            {   
-                parent[tree[node][i]] = node ; 
-                GetParents(tree[node][i], node) ; 
-            }
-        }
-    }*/
-    
-    
-    
+    GetParents(adj[v].begin(), -1);
 
-    
     int lca; 
     while(1)
     {
