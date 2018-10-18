@@ -1,218 +1,187 @@
 #include <iostream> 
-#include <list> 
-#include <stack> 
-#include <limits.h> 
+#include <vector>
+#include <cassert>
 
 #define BOOST_TEST_MODULE Simple testlca
 #include <boost/test/unit_test.hpp>
 
 using namespace std; 
-  
-class AdjListNode 
+
+struct Node 
 { 
-    int v; 
-    int weight;
-    
-    public: 
-    
-        AdjListNode(int _v, int _w)  
-        { 
-            v = _v;  
-            weight = _w;
-        } 
-        
-        int getV()       
-        {  
-            return v;  
-        } 
-        
-        int getWeight()  
-        {  
-            return weight; 
-        } 
+    int value; 
+    struct Node *left, *right; 
 }; 
-  
-class Graph 
-{ 
-    int V;    
-    list<AdjListNode> *adj;
-    
-    public: 
-        Graph(int V);   
-        void addEdge(int u, int v, int weight); 
-        void LCA(int u , int v); 
-}; 
-  
-Graph::Graph(int V) 
-{ 
-    this->V = V; 
-    adj = new list<AdjListNode>[V]; 
-} 
 
-void Graph::addEdge(int u, int v, int weight) 
-{ 
-    AdjListNode node(v, weight); 
-    adj[u].push_back(node);
-}
-
-void Graph::LCA(int u , int v)
+class CreateTree
 {
-    bool *visited = new bool[V]; 
-    for(int i = 0; i < V; i++) 
-    {
-        visited[i] = false; 
-    }
-    
-    int *parent = new int[V];
-    for(int i = 0; i < V; ++i)
-    {
-        adj[i]
-    }
-    
-    
-    list<AdjListNode>::iterator i; 
-    int *parent = new int[V];
-    for (i = adj[v].begin(); i != adj[v].end(); ++i) 
-    { 
-        AdjListNode node = *i; 
-        if (!visited[node.getV()]) 
-            topologicalSortUtil(node.getV(), visited, Stack); 
-    } 
-    
-    
-    /*void GetParents(int node , int par)
-    {       
-        for(int i = 0; i < tree[node].size(); ++i)
-        {
-            if(tree[node][i] != par)
-            {   
-                parent[tree[node][i]] = node ; 
-                GetParents(tree[node][i], node) ; 
-            }
-        }
-    }*/
-    
-    
-    
+    public:
+        CreateTree();
+        ~CreateTree();
+        void insert(int key);
+        int lca(int number1, int number2);
+        void print();
+    private:
+        void destroy(Node *leaf);
+        void insert(int key, Node *leaf);
+        bool find(Node *leaf, vector<int> &path, int key);
+        int lca(Node *leaf, int number1, int number2);
+        void print(Node *leaf);
+        Node *root;
+};
 
-    
-    int lca; 
-    while(1)
-    {
-        visited[u] = true ; 
-        if(u == root_node)
-        {
-            break ; 
-        }
-        u = parent[u] ; 
-    }
-
-
-    while(1)
-    {
-        if(visited[v])
-        {
-            lca = v;    
-            break;  
-        }
-        
-        v = parent[v] ; 
-    }
-    
-    return lca ; 
-}
-
-
-
-
-
-
-/*int main() 
-{ 
-    Graph g(6); 
-    g.addEdge(0, 1, 5); 
-    g.addEdge(0, 2, 3); 
-    g.addEdge(1, 3, 6); 
-    g.addEdge(1, 2, 2); 
-    g.addEdge(2, 4, 4); 
-    g.addEdge(2, 5, 2); 
-    g.addEdge(2, 3, 7); 
-    g.addEdge(3, 4, -1); 
-    g.addEdge(4, 5, -2); 
-}*/
-
-BOOST_AUTO_TEST_CASE(simple_test) 
+CreateTree::CreateTree()
 {
-    Graph g(6); 
-    g.addEdge(0, 1, 5); 
-    g.addEdge(0, 2, 3); 
-    g.addEdge(1, 3, 6); 
-    g.addEdge(1, 2, 2); 
-    g.addEdge(2, 4, 4); 
-    g.addEdge(2, 5, 2); 
-    g.addEdge(2, 3, 7); 
-    g.addEdge(3, 4, -1); 
-    g.addEdge(4, 5, -2); 
-    
-    //BOOST_CHECK_EQUAL(2+2, 4);
+	root = NULL;
 }
 
+CreateTree::~CreateTree()
+{
+	destroy(root);
+}
 
-/*
-    // A recursive function used by shortestPath. See below link for details 
-// https://www.geeksforgeeks.org/topological-sorting/ 
-void Graph::topologicalSortUtil(int v, bool visited[], stack<int> &Stack) 
+void CreateTree::insert(int key)
+{
+	if(root != NULL)
+    {
+		insert(key, root);
+	}
+    else
+    {
+		root = new Node;
+		root->value = key;
+		root->left = NULL;
+		root->right = NULL;
+	}
+}
+
+void CreateTree::insert(int key, Node *leaf)
+{
+	if(key < leaf->value)
+    {
+		if(leaf->left != NULL)
+        {
+			insert(key, leaf->left);
+		}
+        else
+        {
+			leaf->left = new Node;
+			leaf->left->value = key;
+			leaf->left->left = NULL;
+			leaf->left->right = NULL;
+		}
+	}
+    else if(key >= leaf->value)
+    {
+		if(leaf->right != NULL)
+        {
+			insert(key, leaf->right);
+		}
+        else
+        {
+			leaf->right = new Node;
+			leaf->right->value = key;
+			leaf->right->right = NULL;
+			leaf->right->left = NULL;
+		}
+	}
+
+}
+
+int CreateTree::lca(int number1, int number2) 
 { 
-    // Mark the current node as visited 
-    visited[v] = true; 
-  
-    // Recur for all the vertices adjacent to this vertex 
-    list<AdjListNode>::iterator i; 
-    for (i = adj[v].begin(); i != adj[v].end(); ++i) 
-    { 
-        AdjListNode node = *i; 
-        if (!visited[node.getV()]) 
-            topologicalSortUtil(node.getV(), visited, Stack); 
-    } 
-  
-    // Push current vertex to stack which stores topological sort 
-    Stack.push(v); 
-} 
-  
-void Graph::shortestPath(int s) 
+    return lca(root, number1, number2);
+}
+
+int CreateTree::lca(Node *leaf, int number1, int number2) 
 { 
-    stack<int> Stack; 
-    int dist[V]; 
+    vector<int> path1, path2; 
 
-    bool *visited = new bool[V]; 
-    for (int i = 0; i < V; i++) 
-        visited[i] = false; 
-  
+    if(!find(leaf, path1, number1) || !find(leaf, path2, number2)) 
+    {
+        return -1; 
+    }
 
-    for (int i = 0; i < V; i++) 
-        if (visited[i] == false) 
-            topologicalSortUtil(i, visited, Stack); 
+    unsigned int i; 
+    for(i = 0; i < path1.size() && i < path2.size(); i++) 
+    {
+        if(path1[i] != path2[i]) 
+        {
+            break;
+        }
+    }
+    
+    return path1[i-1]; 
+}
 
-    for (int i = 0; i < V; i++) 
-        dist[i] = INF; 
-    dist[s] = 0; 
-  
-    // Process vertices in topological order 
-    while (Stack.empty() == false) 
-    { 
-        int u = Stack.top(); 
-        Stack.pop(); 
+void CreateTree::destroy(Node *leaf)
+{
+	if(leaf != NULL)
+    {
+		destroy(leaf->left);
+		destroy(leaf->right);
+		delete leaf;
+	}
+}
 
-        list<AdjListNode>::iterator i; 
-        if (dist[u] != INF) 
-        { 
-          for (i = adj[u].begin(); i != adj[u].end(); ++i) 
-             if (dist[i->getV()] > dist[u] + i->getWeight()) 
-                dist[i->getV()] = dist[u] + i->getWeight(); 
-        } 
-    } 
+bool CreateTree::find(Node *root, vector<int> &path, int index) 
+{ 
+    if(root == NULL) 
+    {
+        return false; 
+    }
+    
+    path.push_back(root->value); 
 
-    for (int i = 0; i < V; i++) 
-        (dist[i] == INF)? cout << "INF ": cout << dist[i] << " "; 
-} 
-*/
+    if(root->value == index) 
+    {
+        return true; 
+    }
+    
+    if((root->left && find(root->left, path, index)) || (root->right && find(root->right, path, index))) 
+    {
+        return true; 
+    }
+    
+    path.pop_back(); 
+    return false; 
+}
+
+void CreateTree::print()
+{
+    cout << "\n";
+	print(root);
+	cout << "\n";
+}
+
+void CreateTree::print(Node *leaf)
+{
+	if(leaf != NULL)
+    {
+		print(leaf->left);
+		cout << leaf->value << "|";
+		print(leaf->right);
+	}
+}
+
+int main() 
+{
+    CreateTree *tree = new CreateTree();
+
+	tree->insert(1);
+	tree->insert(2);
+	tree->insert(3);
+	tree->insert(4);
+	tree->insert(5);
+	tree->insert(6);
+	tree->insert(7);
+
+    assert(tree->lca(4, 5) == 4);
+    assert(tree->lca(4, 6) == 4);
+    assert(tree->lca(3, 4) == 3);
+    assert(tree->lca(1, 3) == 1);
+    assert(tree->lca(1, 7) == 1);
+
+    tree->print();
+    delete tree;
+}
