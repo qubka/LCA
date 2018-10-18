@@ -41,7 +41,7 @@ class Graph
         Graph(int V);   
         void addEdge(int u, int v, int weight); 
         void LCA(int u , int v);
-        void getParent(int node);
+        void getParent(int parent[], int Node);
 }; 
   
 Graph::Graph(int V) 
@@ -56,46 +56,46 @@ void Graph::addEdge(int u, int v, int weight)
     adj[u].push_back(node);
 }
 
-void Graph::getParent(int node)
+void Graph::getParent(int parent[], int Node)
 {       
-    for (int n = 0; n < node; n++) 
+    for(int n = 0; n < Node; n++) 
     {
         list<AdjListNode>::iterator i;     
-        for (i = adj[n].begin(); i != adj[n].end(); ++i)
+        for(i = adj[n].begin(); i != adj[n].end(); ++i)
         {
-            if (*iter == node)
+            AdjListNode node = *i; 
+            if(node.getV() == Node)
             {
-                cout << n << " ";
-                //parent[tree[node][i]] = node ; 
+                parent[Node] = n;
             }
         }
     }
 }
 
-void Graph::LCA(int u , int v)
+int Graph::LCA(int u, int v)
 {
-    /*bool *visited = new bool[V]; 
+    bool *visited = new bool[V]; 
+    int *parent = new int[V];
     for(int i = 0; i < V; i++) 
     {
         visited[i] = false; 
-    }*/
-    
-    //int *parent = new int[V];
-    //GetParents(adj[v].begin(), -1);
+        getParent(parent, i);
+    }
 
-    /*int lca; 
-    while(1)
+    int lca;
+    
+    while(true)
     {
-        visited[u] = true ; 
-        if(u == root_node)
+        visited[u] = true; 
+        if(u == adj[0].begin().getV())
         {
             break ; 
         }
-        u = parent[u] ; 
+        
+        u = parent[u]; 
     }
 
-
-    while(1)
+    while(true)
     {
         if(visited[v])
         {
@@ -103,10 +103,10 @@ void Graph::LCA(int u , int v)
             break;  
         }
         
-        v = parent[v] ; 
+        v = parent[v]; 
     }
     
-    return lca ; */
+    return lca;
 }
 
 
