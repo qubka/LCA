@@ -41,7 +41,7 @@ class Graph
         Graph(int V);   
         void addEdge(int u, int v, int weight); 
         void LCA(int u , int v);
-        void GetParents(int node , int par)
+        void getParent(int node);
 }; 
   
 Graph::Graph(int V) 
@@ -56,32 +56,34 @@ void Graph::addEdge(int u, int v, int weight)
     adj[u].push_back(node);
 }
 
-void Graph::GetParents(int node , int par)
+void Graph::getParent(int node)
 {       
-    //for(int i = 0; i < tree[node].size(); ++i)
-    list<AdjListNode>::iterator i;     
-    for(i = adj[v].begin(); i != adj[v].end(); ++i) 
+    for (int n = 0; n < node; n++) 
     {
-        if(tree[node][i] != par)
-        {   
-            parent[tree[node][i]] = node ; 
-            GetParents(tree[node][i], node) ; 
+        list<AdjListNode>::iterator i;     
+        for (i = adj[n].begin(); i != adj[n].end(); ++i)
+        {
+            if (*iter == node)
+            {
+                cout << n << " ";
+                //parent[tree[node][i]] = node ; 
+            }
         }
     }
 }
 
 void Graph::LCA(int u , int v)
 {
-    bool *visited = new bool[V]; 
+    /*bool *visited = new bool[V]; 
     for(int i = 0; i < V; i++) 
     {
         visited[i] = false; 
-    }
+    }*/
     
-    int *parent = new int[V];
-    GetParents(adj[v].begin(), -1);
+    //int *parent = new int[V];
+    //GetParents(adj[v].begin(), -1);
 
-    int lca; 
+    /*int lca; 
     while(1)
     {
         visited[u] = true ; 
@@ -104,7 +106,7 @@ void Graph::LCA(int u , int v)
         v = parent[v] ; 
     }
     
-    return lca ; 
+    return lca ; */
 }
 
 
@@ -112,7 +114,7 @@ void Graph::LCA(int u , int v)
 
 
 
-/*int main() 
+int main() 
 { 
     Graph g(6); 
     g.addEdge(0, 1, 5); 
@@ -124,9 +126,11 @@ void Graph::LCA(int u , int v)
     g.addEdge(2, 3, 7); 
     g.addEdge(3, 4, -1); 
     g.addEdge(4, 5, -2); 
-}*/
+    
+    g.getParent(5);
+}
 
-BOOST_AUTO_TEST_CASE(simple_test) 
+/*BOOST_AUTO_TEST_CASE(simple_test) 
 {
     Graph g(6); 
     g.addEdge(0, 1, 5); 
@@ -139,8 +143,10 @@ BOOST_AUTO_TEST_CASE(simple_test)
     g.addEdge(3, 4, -1); 
     g.addEdge(4, 5, -2); 
     
+    g.getParent(5);
+    
     //BOOST_CHECK_EQUAL(2+2, 4);
-}
+}*/
 
 
 /*
