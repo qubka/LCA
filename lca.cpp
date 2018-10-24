@@ -3,8 +3,6 @@
 #include <stack> 
 #include <limits.h> 
 
-#include "lca_test.cpp"
-
 using namespace std; 
   
 class AdjListNode 
@@ -99,3 +97,5 @@ int Graph::LCA(int u, int v)
     
     return lca;
 }
+
+#include "lca_test.cpp"
