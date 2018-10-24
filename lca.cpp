@@ -164,7 +164,7 @@ void CreateTree::print(Node *leaf)
 	}
 }
 
-int main() 
+/*int main() 
 {
     CreateTree *tree = new CreateTree();
 
@@ -181,6 +181,96 @@ int main()
     assert(tree->lca(3, 4) == 3);
     assert(tree->lca(1, 3) == 1);
     assert(tree->lca(1, 7) == 1);
+
+    tree->print();
+    delete tree;
+}*/
+
+BOOST_AUTO_TEST_CASE(simple_test) 
+{
+    CreateTree *tree = new CreateTree();
+
+	tree->insert(1);
+	tree->insert(2);
+	tree->insert(3);
+	tree->insert(4);
+	tree->insert(5);
+	tree->insert(6);
+	tree->insert(7);
+
+    BOOST_CHECK_EQUAL(tree->lca(4, 5), 4);
+
+    tree->print();
+    delete tree;
+}
+
+BOOST_AUTO_TEST_CASE(simple_test) 
+{
+    CreateTree *tree = new CreateTree();
+
+	tree->insert(1);
+	tree->insert(2);
+	tree->insert(3);
+	tree->insert(4);
+	tree->insert(5);
+	tree->insert(6);
+	tree->insert(7);
+
+    BOOST_CHECK_EQUAL(tree->lca(4, 6), 4);
+
+    tree->print();
+    delete tree;
+}
+
+BOOST_AUTO_TEST_CASE(simple_test) 
+{
+    CreateTree *tree = new CreateTree();
+
+	tree->insert(1);
+	tree->insert(2);
+	tree->insert(3);
+	tree->insert(4);
+	tree->insert(5);
+	tree->insert(6);
+	tree->insert(7);
+
+    BOOST_CHECK_EQUAL(tree->lca(3, 4), 3);
+
+    tree->print();
+    delete tree;
+}
+
+BOOST_AUTO_TEST_CASE(simple_test) 
+{
+    CreateTree *tree = new CreateTree();
+
+	tree->insert(1);
+	tree->insert(2);
+	tree->insert(3);
+	tree->insert(4);
+	tree->insert(5);
+	tree->insert(6);
+	tree->insert(7);
+
+    BOOST_CHECK_EQUAL(tree->lca(1, 3), 1);
+
+    tree->print();
+    delete tree;
+}
+
+BOOST_AUTO_TEST_CASE(simple_test) 
+{
+    CreateTree *tree = new CreateTree();
+
+	tree->insert(1);
+	tree->insert(2);
+	tree->insert(3);
+	tree->insert(4);
+	tree->insert(5);
+	tree->insert(6);
+	tree->insert(7);
+
+    BOOST_CHECK_EQUAL(tree->lca(1, 7), 1);
 
     tree->print();
     delete tree;
