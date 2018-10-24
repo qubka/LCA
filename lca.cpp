@@ -16,7 +16,7 @@ class Graph
         int LCA(int u , int v);
         void getParent(int parent[], int Node);
         void DFS(int v);
-       
+    
     private:
         void DFS(int v, bool visited[]); 
 }; 
